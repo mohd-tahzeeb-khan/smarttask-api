@@ -9,17 +9,6 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-package models
-
-import (
-"log"
-
-"github.com/smarttask/api/internal/config"
-"gorm.io/driver/sqlite"
-"gorm.io/gorm"
-"gorm.io/gorm/logger"
-)
-
 var DB *gorm.DB
 
 func InitDB() {

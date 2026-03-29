@@ -1,0 +1,28 @@
+notepad .gitignore
+```
+
+Paste this, save and close:
+```
+# Binaries
+smarttask
+*.exe
+
+# Environment
+.env
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Go
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

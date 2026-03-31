@@ -1,17 +1,18 @@
 # ── Build stage ──────────────────────────────────────────────────────────────
-FROM golang:1.23-alpine AS builder
+FROM golang:1.23-bookworm AS builder
 
-RUN apk add --no-cache gcc musl-dev sqlite-dev build-base
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-
-COPY go.mod go.sum ./
 
 ENV GOTOOLCHAIN=local
 ENV CGO_ENABLED=1
 ENV GOOS=linux
-ENV GOARCH=amd64
 
+COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
@@ -19,9 +20,13 @@ COPY . .
 RUN go build -ldflags="-w -s" -o smarttask ./cmd/main.go
 
 # ── Run stage ─────────────────────────────────────────────────────────────────
-FROM alpine:3.19
+FROM debian:bookworm-slim
 
-RUN apk add --no-cache sqlite-libs ca-certificates tzdata
+RUN apt-get update && apt-get install -y \
+    libsqlite3-0 \
+    ca-certificates \
+    tzdata \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 

@@ -2,7 +2,7 @@ services:
   - type: web
     name: smarttask-api
     runtime: docker
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./DockerFile
     plan: free
     envVars:
       - key: PORT

@@ -9,6 +9,8 @@ import (
 	"github.com/smarttask/api/internal/middleware"
 	"github.com/smarttask/api/internal/models"
 	"github.com/smarttask/api/internal/services"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func Setup(
@@ -24,6 +26,10 @@ func Setup(
 	r.Use(middleware.RateLimit(rl))
 	r.Use(gin.Recovery())
 
+	// Swagger UI
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	// Health check
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, models.APIResponse{
 			Success: true,

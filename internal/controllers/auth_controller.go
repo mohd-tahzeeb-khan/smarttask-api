@@ -16,6 +16,17 @@ func NewAuthController(authSvc *services.AuthService) *AuthController {
 	return &AuthController{authSvc: authSvc}
 }
 
+// Signup godoc
+// @Summary      Register a new user
+// @Description  Create a new account with name, email and password
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        body  body      models.SignupRequest  true  "Signup payload"
+// @Success      201   {object}  models.APIResponse
+// @Failure      400   {object}  models.APIResponse
+// @Failure      409   {object}  models.APIResponse
+// @Router       /auth/signup [post]
 func (ctrl *AuthController) Signup(c *gin.Context) {
 	var req models.SignupRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -36,6 +47,17 @@ func (ctrl *AuthController) Signup(c *gin.Context) {
 	})
 }
 
+// Login godoc
+// @Summary      Login user
+// @Description  Authenticate with email and password, returns JWT token
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        body  body      models.LoginRequest  true  "Login payload"
+// @Success      200   {object}  models.APIResponse
+// @Failure      400   {object}  models.APIResponse
+// @Failure      401   {object}  models.APIResponse
+// @Router       /auth/login [post]
 func (ctrl *AuthController) Login(c *gin.Context) {
 	var req models.LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -56,6 +78,15 @@ func (ctrl *AuthController) Login(c *gin.Context) {
 	})
 }
 
+// Me godoc
+// @Summary      Get current user
+// @Description  Returns the authenticated user's profile
+// @Tags         Auth
+// @Security     BearerAuth
+// @Produce      json
+// @Success      200  {object}  models.APIResponse
+// @Failure      401  {object}  models.APIResponse
+// @Router       /auth/me [get]
 func (ctrl *AuthController) Me(c *gin.Context) {
 	userID, _ := c.Get("user_id")
 	email, _ := c.Get("user_email")
